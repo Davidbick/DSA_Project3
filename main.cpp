@@ -1,6 +1,8 @@
 #include <iostream>
 #include "../Hashmap.h"
+#include "../Trie.h"
 #include <unordered_map>
+#include <chrono>
 using namespace std;
 #include <fstream>
 #include <sstream>
@@ -90,22 +92,27 @@ int main() {
          << "You can learn more about our books by entering the name of a book. Enter 'q' or 'Q' to quit." << endl
          << endl;
     string input2;
+    string input;
     while(!quit){
-        string input;
+        //string input;
         cout << "Enter a book title:" << endl;
         getline(cin, input);
         cout << endl;
         if(input == "q" || input == "Q"){
-            quit = true;
+            //quit = true;
             break;
         }
+        auto s = chrono::steady_clock::now();
         bool inMap = hashmap.contains(input);
         if(!inMap){
             cout << "Sorry, we don't have this book in our inventory." << endl;
             cout << endl;
+            auto e = chrono::steady_clock::now();
+            auto time = chrono::duration_cast<chrono::microseconds>(e-s).count();
+            cout << "Search time: " << time << " microseconds." << endl;
+            cout << endl;
         }
         else{
-            Book b = hashmap.get(input);
             cout << "If you want to know the author(s) of the book, enter 'a' or 'A'." << endl
                  << "If you want a description of the book, enter 'd' or 'D'." << endl
                  << "If you want the category of the book, enter 'c' or 'C'." << endl
@@ -113,31 +120,33 @@ int main() {
                  << "If you want the price of the book, enter '$'." << endl
                  << "If you want the publish month and year of the book, enter '#'." << endl
                  << "If you want everything, enter 'e' or 'E'." << endl;
-            getline(cin, input);
+            getline(cin, input2);
             cout << endl;
-            if(input == "q" || input == "Q"){
-                quit = true;
+            auto start = chrono::steady_clock::now();
+            Book b = hashmap.get(input);
+            if(input2 == "q" || input2 == "Q"){
+                //quit = true;
                 break;
             }
-            else if(input == "a" || input == "A"){
+            else if(input2 == "a" || input2 == "A"){
                 cout << "Author(s): " << b.authors << endl;
             }
-            else if(input == "d" || input == "D"){
+            else if(input2 == "d" || input2 == "D"){
                 cout << "Description: " << b.description << endl;
             }
-            else if(input == "c" || input == "C"){
+            else if(input2 == "c" || input2 == "C"){
                 cout << "Category: " << b.category << endl;
             }
-            else if(input == "p" || input == "P"){
+            else if(input2 == "p" || input2 == "P"){
                 cout << "Publisher: " << b.publisher << endl;
             }
-            else if(input == "$"){
+            else if(input2 == "$"){
                 cout << "Price: $" << b.priceStarting << endl;
             }
-            else if(input == "#"){
+            else if(input2 == "#"){
                 cout << "Publish month and year: " << b.publishMonth << " " << b.publishYear << endl;
             }
-            else if(input == "e" || input == "E"){
+            else if(input2 == "e" || input2 == "E"){
                 cout << "Author(s): " << b.authors << endl
                      << "Description: " << b.description << endl
                      << "Category: " << b.category << endl
@@ -146,17 +155,12 @@ int main() {
                      << "Publish month and year: " << b.publishMonth << " " << b.publishYear << endl;
             }
             cout << endl;
+            auto end = chrono::steady_clock::now();
+            auto time = chrono::duration_cast<chrono::microseconds>(end-start).count();
+            cout << "Search time: " << time << " microseconds." << endl;
+            cout << endl;
         }
     }
-
-    /*for (int i = 100; i < 110; i++) {
-        cout << "Title: " << books[i].title << endl
-             << "Authors: " << books[i].authors << endl
-             << "Category: " << books[i].category << endl
-             << "Price: " << books[i].priceStarting << endl
-             << "Publish Date: " << books[i].publishMonth << " " << books[i].publishYear << endl
-             << endl;
-    }*/
 
     file.close();
     return 0;
