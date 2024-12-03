@@ -122,7 +122,7 @@ int main() {
                  << "If you want everything, enter 'e' or 'E'." << endl;
             getline(cin, input2);
             cout << endl;
-            auto start = chrono::steady_clock::now();
+            auto start = chrono::high_resolution_clock::now();
             Book b = hashmap.get(input);
             if(input2 == "q" || input2 == "Q"){
                 //quit = true;
@@ -154,8 +154,11 @@ int main() {
                      << "Price: $" << b.priceStarting << endl
                      << "Publish month and year: " << b.publishMonth << " " << b.publishYear << endl;
             }
+            else{
+                cout << "That is not a valid command. Please try again." << endl;
+            }
             cout << endl;
-            auto end = chrono::steady_clock::now();
+            auto end = chrono::high_resolution_clock::now();
             auto time = chrono::duration_cast<chrono::microseconds>(end-start).count();
             cout << "Search time: " << time << " microseconds." << endl;
             cout << endl;
