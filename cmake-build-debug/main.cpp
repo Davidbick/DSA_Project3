@@ -89,6 +89,8 @@ int main() {
         hashmap.insert(book.title, book);
         trie.insert(book.title, book);
     }
+
+    ///beginning of what the user sees
     cout << "Welcome to the BookFinder!" << endl
          << "We have 103,063 books stored in our Hashmap and Trie Data Structures." << endl
          << "You can learn more about our books by entering the name of a book. Enter 'q' or 'Q' to quit." << endl
@@ -100,22 +102,22 @@ int main() {
         cout << "Enter a book title:" << endl;
         getline(cin, input);
         cout << endl;
-        if(input == "q" || input == "Q"){
+        if(input == "q" || input == "Q"){ ///quits the program whenever q or Q are entered
             break;
         }
-        auto hashStart1 = chrono::high_resolution_clock::now();
-        bool inMap = hashmap.contains(input);
+        auto hashStart1 = chrono::high_resolution_clock::now(); ///timer starts for hashmap
+        bool inMap = hashmap.contains(input); ///determines whether the title is in the hashmap
         if(!inMap){
-            auto hashEnd1 = chrono::high_resolution_clock::now();
+            auto hashEnd1 = chrono::high_resolution_clock::now(); ///timer ends when the book title entered is not found
             auto hashTime1 = chrono::duration_cast<chrono::microseconds>(hashEnd1-hashStart1).count();
             cout << "Sorry, we don't have this book in our inventory." << endl;
             cout << endl;
             cout << "Hashmap search time: " << hashTime1 << " microseconds." << endl;
             cout << endl;
-            auto trieStart1 = chrono::high_resolution_clock::now();
-            bool inTrie = trie.contains(input);
+            auto trieStart1 = chrono::high_resolution_clock::now(); ///starts timer for the trie data structure
+            bool inTrie = trie.contains(input); ///determines whether the title is in the trie
             if(!inTrie){
-                auto trieEnd1 = chrono::high_resolution_clock::now();
+                auto trieEnd1 = chrono::high_resolution_clock::now(); ///timer ends when title isn't found in trie
                 auto trieTime1 = chrono::duration_cast<chrono::microseconds>(trieEnd1-trieStart1).count();
                 cout << "Sorry, we don't have this book in our inventory." << endl;
                 cout << endl;
@@ -123,7 +125,7 @@ int main() {
                 cout << endl;
             }
         }
-        else{
+        else{ ///gives user different options
             cout << "If you want to know the author(s) of the book, enter 'a' or 'A'." << endl
                  << "If you want a description of the book, enter 'd' or 'D'." << endl
                  << "If you want the category of the book, enter 'c' or 'C'." << endl
@@ -133,8 +135,8 @@ int main() {
                  << "If you want everything, enter 'e' or 'E'." << endl;
             getline(cin, input2);
             cout << endl;
-            auto hashStart2 = chrono::high_resolution_clock::now();
-            Book hashBook = hashmap.get(input);
+            auto hashStart2 = chrono::high_resolution_clock::now(); ///start a new timer so time isn't wasted
+            Book hashBook = hashmap.get(input); ///retrieve book
             if(input2 == "q" || input2 == "Q"){
                 break;
             }
@@ -176,8 +178,8 @@ int main() {
                 cout << endl;
             }
 
-            auto trieStart2 = chrono::high_resolution_clock::now();
-            Book trieBook = trie.search(input);
+            auto trieStart2 = chrono::high_resolution_clock::now(); ///start new timer for trie
+            Book trieBook = trie.search(input); ///retrieve book
             if(input2 == "q" || input2 == "Q"){
                 break;
             }
