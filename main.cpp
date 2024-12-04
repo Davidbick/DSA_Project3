@@ -12,10 +12,11 @@ using namespace std;
 
 int main() {
     Hashmap hashmap;
+    Trie trie;
     string filename = "BooksDatasetClean.csv";
     ifstream file(filename);
     if (!file.is_open()) {
-        cerr << "Error: Could not open the file " << filename << std::endl;
+        cerr << "Error: Could not open the file " << filename << endl;
         return 1;
     }
     string line;
@@ -86,6 +87,7 @@ int main() {
 
         books.push_back(book);
         hashmap.insert(book.title, book);
+        trie.insert(book.title, book);
     }
     cout << "Welcome to the BookFinder!" << endl
          << "We have 103,063 books stored in our Hashmap and Trie Data Structures." << endl
@@ -94,23 +96,32 @@ int main() {
     string input2;
     string input;
     while(!quit){
-        //string input;
+        bool display = true;
         cout << "Enter a book title:" << endl;
         getline(cin, input);
         cout << endl;
         if(input == "q" || input == "Q"){
-            //quit = true;
             break;
         }
-        auto s = chrono::steady_clock::now();
+        auto hashStart1 = chrono::high_resolution_clock::now();
         bool inMap = hashmap.contains(input);
         if(!inMap){
+            auto hashEnd1 = chrono::high_resolution_clock::now();
+            auto hashTime1 = chrono::duration_cast<chrono::microseconds>(hashEnd1-hashStart1).count();
             cout << "Sorry, we don't have this book in our inventory." << endl;
             cout << endl;
-            auto e = chrono::steady_clock::now();
-            auto time = chrono::duration_cast<chrono::microseconds>(e-s).count();
-            cout << "Search time: " << time << " microseconds." << endl;
+            cout << "Hashmap search time: " << hashTime1 << " microseconds." << endl;
             cout << endl;
+            auto trieStart1 = chrono::high_resolution_clock::now();
+            bool inTrie = trie.contains(input);
+            if(!inTrie){
+                auto trieEnd1 = chrono::high_resolution_clock::now();
+                auto trieTime1 = chrono::duration_cast<chrono::microseconds>(trieEnd1-trieStart1).count();
+                cout << "Sorry, we don't have this book in our inventory." << endl;
+                cout << endl;
+                cout << "Trie search time: " << trieTime1 << "microseconds." << endl;
+                cout << endl;
+            }
         }
         else{
             cout << "If you want to know the author(s) of the book, enter 'a' or 'A'." << endl
@@ -122,49 +133,89 @@ int main() {
                  << "If you want everything, enter 'e' or 'E'." << endl;
             getline(cin, input2);
             cout << endl;
-            auto start = chrono::high_resolution_clock::now();
-            Book b = hashmap.get(input);
+            auto hashStart2 = chrono::high_resolution_clock::now();
+            Book hashBook = hashmap.get(input);
             if(input2 == "q" || input2 == "Q"){
-                //quit = true;
                 break;
             }
             else if(input2 == "a" || input2 == "A"){
-                cout << "Author(s): " << b.authors << endl;
+                cout << "Author(s): " << hashBook.authors << endl;
             }
             else if(input2 == "d" || input2 == "D"){
-                cout << "Description: " << b.description << endl;
+                cout << "Description: " << hashBook.description << endl;
             }
             else if(input2 == "c" || input2 == "C"){
-                cout << "Category: " << b.category << endl;
+                cout << "Category: " << hashBook.category << endl;
             }
             else if(input2 == "p" || input2 == "P"){
-                cout << "Publisher: " << b.publisher << endl;
+                cout << "Publisher: " << hashBook.publisher << endl;
             }
             else if(input2 == "$"){
-                cout << "Price: $" << b.priceStarting << endl;
+                cout << "Price: $" << hashBook.priceStarting << endl;
             }
             else if(input2 == "#"){
-                cout << "Publish month and year: " << b.publishMonth << " " << b.publishYear << endl;
+                cout << "Publish month and year: " << hashBook.publishMonth << " " << hashBook.publishYear << endl;
             }
             else if(input2 == "e" || input2 == "E"){
-                cout << "Author(s): " << b.authors << endl
-                     << "Description: " << b.description << endl
-                     << "Category: " << b.category << endl
-                     << "Publisher: " << b.publisher << endl
-                     << "Price: $" << b.priceStarting << endl
-                     << "Publish month and year: " << b.publishMonth << " " << b.publishYear << endl;
+                cout << "Author(s): " << hashBook.authors << endl
+                     << "Description: " << hashBook.description << endl
+                     << "Category: " << hashBook.category << endl
+                     << "Publisher: " << hashBook.publisher << endl
+                     << "Price: $" << hashBook.priceStarting << endl
+                     << "Publish month and year: " << hashBook.publishMonth << " " << hashBook.publishYear << endl;
             }
             else{
                 cout << "That is not a valid command. Please try again." << endl;
+                display = false;
             }
+            auto hashEnd2 = chrono::high_resolution_clock::now();
+            auto hashTime2 = chrono::duration_cast<chrono::microseconds>(hashEnd2-hashStart2).count();
             cout << endl;
-            auto end = chrono::high_resolution_clock::now();
-            auto time = chrono::duration_cast<chrono::microseconds>(end-start).count();
-            cout << "Search time: " << time << " microseconds." << endl;
+            if(display){
+                cout << "Hashmap search time: " << hashTime2 << " microseconds." << endl;
+                cout << endl;
+            }
+
+            auto trieStart2 = chrono::high_resolution_clock::now();
+            Book trieBook = trie.search(input);
+            if(input2 == "q" || input2 == "Q"){
+                break;
+            }
+            else if(input2 == "a" || input2 == "A"){
+                cout << "Author(s): " << trieBook.authors << endl;
+            }
+            else if(input2 == "d" || input2 == "D"){
+                cout << "Description: " << trieBook.description << endl;
+            }
+            else if(input2 == "c" || input2 == "C"){
+                cout << "Category: " << trieBook.category << endl;
+            }
+            else if(input2 == "p" || input2 == "P"){
+                cout << "Publisher: " << trieBook.publisher << endl;
+            }
+            else if(input2 == "$"){
+                cout << "Price: $" << trieBook.priceStarting << endl;
+            }
+            else if(input2 == "#"){
+                cout << "Publish month and year: " << trieBook.publishMonth << " " << trieBook.publishYear << endl;
+            }
+            else if(input2 == "e" || input2 == "E"){
+                cout << "Author(s): " << trieBook.authors << endl
+                     << "Description: " << trieBook.description << endl
+                     << "Category: " << trieBook.category << endl
+                     << "Publisher: " << trieBook.publisher << endl
+                     << "Price: $" << trieBook.priceStarting << endl
+                     << "Publish month and year: " << trieBook.publishMonth << " " << trieBook.publishYear << endl;
+            }
+            auto trieEnd2 = chrono::high_resolution_clock::now();
+            auto trieTime2 = chrono::duration_cast<chrono::microseconds>(trieEnd2-trieStart2).count();
             cout << endl;
+            if(display){
+                cout << "Trie search time: " << trieTime2 << " microseconds." << endl;
+                cout << endl;
+            }
         }
     }
-
     file.close();
     return 0;
 }
