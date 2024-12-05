@@ -67,3 +67,9 @@ Trie search time: 3275 microseconds.
 ```
 
 You can choose to reset the book search by inputting "r" or quit the code by inputting "q"
+
+If you have trouble reading the csv file, use the command line:
+```text
+g++ -o main.exe main.cpp
+```
+Then run 'main.exe'
