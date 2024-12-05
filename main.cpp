@@ -1,6 +1,6 @@
 #include <iostream>
-#include "../Hashmap.h"
-#include "../Trie.h"
+#include "Hashmap.h"
+#include "Trie.h"
 #include <unordered_map>
 #include <chrono>
 using namespace std;
@@ -16,6 +16,7 @@ string toLowerCase(const string &str) {
 }
 
 int main() {
+    cout << "Loading data... Please wait..." << endl;
     Hashmap hashmap;
     Trie trie;
     string filename = "BooksDatasetClean.csv";
@@ -149,6 +150,7 @@ int main() {
                 auto hashStart2 = chrono::high_resolution_clock::now(); ///start a new timer so time isn't wasted
                 Book hashBook = hashmap.get(input); ///retrieve book
                 if (input2 == "q" || input2 == "Q") {
+                    quit = true;
                     break;
                 } else if (input2 == "r" || input2 == "R") {
                     cout << "Resetting search..." << endl;
@@ -188,6 +190,7 @@ int main() {
                 auto trieStart2 = chrono::high_resolution_clock::now(); ///start new timer for trie
                 Book trieBook = trie.search(input); ///retrieve book
                 if (input2 == "q" || input2 == "Q") {
+                    quit = true;
                     break;
                 } else if (input2 == "a" || input2 == "A") {
                     cout << "Author(s): " << trieBook.authors << endl;

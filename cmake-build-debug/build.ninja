@@ -49,7 +49,7 @@ cmake_ninja_workdir = C$:/Users/david/CLionProjects/DSA-Project3/cmake-build-deb
 
 build cmake_object_order_depends_target_DSA_Project3: phony || CMakeFiles/DSA_Project3.dir
 
-build CMakeFiles/DSA_Project3.dir/main.cpp.obj: CXX_COMPILER__DSA_Project3_unscanned_Debug C$:/Users/david/CLionProjects/DSA-Project3/cmake-build-debug/main.cpp || cmake_object_order_depends_target_DSA_Project3
+build CMakeFiles/DSA_Project3.dir/main.cpp.obj: CXX_COMPILER__DSA_Project3_unscanned_Debug C$:/Users/david/CLionProjects/DSA-Project3/main.cpp || cmake_object_order_depends_target_DSA_Project3
   DEP_FILE = CMakeFiles\DSA_Project3.dir\main.cpp.obj.d
   FLAGS = -g -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\DSA_Project3.dir
