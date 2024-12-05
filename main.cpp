@@ -181,7 +181,6 @@ int main() {
                 }
                 auto hashEnd2 = chrono::high_resolution_clock::now();
                 auto hashTime2 = chrono::duration_cast<chrono::microseconds>(hashEnd2 - hashStart2).count();
-                cout << endl;
                 if (display) {
                     cout << "Hashmap search time: " << hashTime2 << " microseconds." << endl;
                     cout << endl;
@@ -214,7 +213,6 @@ int main() {
                 }
                 auto trieEnd2 = chrono::high_resolution_clock::now();
                 auto trieTime2 = chrono::duration_cast<chrono::microseconds>(trieEnd2 - trieStart2).count();
-                cout << endl;
                 if (display) {
                     cout << "Trie search time: " << trieTime2 << " microseconds." << endl;
                     cout << endl;
