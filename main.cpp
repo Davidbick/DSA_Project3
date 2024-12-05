@@ -16,7 +16,9 @@ string toLowerCase(const string &str) {
 }
 
 int main() {
-    cout << "Loading data... Please wait..." << endl;
+    cout << "----------------------------------------------------" << endl
+         << " Loading data... Please wait...                    " << endl
+         << "----------------------------------------------------" << endl;
     Hashmap hashmap;
     Trie trie;
     string filename = "BooksDatasetClean.csv";
@@ -74,6 +76,7 @@ int main() {
             row.push_back(" No data available.");
         }
 
+
         // Add book to the list
         Book book;
         book.title = row[0];
@@ -97,15 +100,22 @@ int main() {
     }
 
     ///beginning of what the user sees
-    cout << "Welcome to the BookFinder!" << endl
-         << "We have 103,063 books stored in our Hashmap and Trie Data Structures." << endl
-         << "You can learn more about our books by entering the name of a book. Enter 'q' or 'Q' to quit." << endl
+    cout << "----------------------------------------------------" << endl
+         << " Welcome to the BookFinder!                    " << endl
+         << "----------------------------------------------------" << endl
+         << " We have 103,063 books stored in our Hashmap and   " << endl
+         << " Trie Data Structures.                             " << endl
+         << " You can learn more about our books by entering   " << endl
+         << " the name of a book. Enter 'q' or 'Q' to quit.    " << endl
+         << "----------------------------------------------------" << endl
          << endl;
     string input2;
     string input;
     while(!quit){
         bool display = true;
-        cout << "Enter a book title:" << endl;
+        cout << "----------------------------------------------------" << endl
+             << " Enter a book title:                               " << endl
+             << "----------------------------------------------------" << endl;
         getline(cin, input);
 
         cout << endl;
@@ -119,32 +129,41 @@ int main() {
         if(!inMap) {
             auto hashEnd1 = chrono::high_resolution_clock::now(); ///timer ends when the book title entered is not found
             auto hashTime1 = chrono::duration_cast<chrono::microseconds>(hashEnd1 - hashStart1).count();
-            cout << "Sorry, we don't have this book in our hashmap inventory." << endl;
-            cout << endl;
-            cout << "Hashmap search time: " << hashTime1 << " microseconds." << endl;
-            cout << endl;
+            cout << "----------------------------------------------------" << endl
+                 << " Sorry, we don't have this book in our Hashmap. " << endl
+                 << "----------------------------------------------------" << endl
+                 << " Hashmap search time: " << hashTime1 << " microseconds." << endl
+                 << "----------------------------------------------------" << endl
+                 << endl;
         }
             auto trieStart1 = chrono::high_resolution_clock::now(); ///starts timer for the trie data structure
             bool inTrie = trie.contains(input); ///determines whether the title is in the trie
         if(!inTrie){
             auto trieEnd1 = chrono::high_resolution_clock::now(); ///timer ends when title isn't found in trie
             auto trieTime1 = chrono::duration_cast<chrono::microseconds>(trieEnd1-trieStart1).count();
-            cout << "Sorry, we don't have this book in our trie inventory." << endl;
-            cout << endl;
-            cout << "Trie search time: " << trieTime1 << "microseconds." << endl;
-            cout << endl;
+            cout << "----------------------------------------------------" << endl
+                 << " Sorry, we don't have this book in our Trie.    " << endl
+                 << "----------------------------------------------------" << endl
+                 << " Trie search time: " << trieTime1 << " microseconds." << endl
+                 << "----------------------------------------------------" << endl
+                 << endl;
         }
         else{ ///gives user different options
             basic_string<char> input2 = "";
             while(input2 != "r" && input2 != "R") {
-                cout << "If you want to know the author(s) of the book, enter 'a' or 'A'." << endl
-                     << "If you want a description of the book, enter 'd' or 'D'." << endl
-                     << "If you want the category of the book, enter 'c' or 'C'." << endl
-                     << "If you want the publisher of the book, enter 'p' or 'P'." << endl
-                     << "If you want the price of the book, enter '$'." << endl
-                     << "If you want the publish month and year of the book, enter '#'." << endl
-                     << "If you want everything, enter 'e' or 'E'." << endl
-                        << "If you want to reset the book search, enter 'r' or 'R'." << endl;
+                display = true;
+                cout << "----------------------------------------------------" << endl
+                     << " What information would you like about the book?   " << endl
+                     << "----------------------------------------------------" << endl
+                     << " a/A: Author(s)                                    " << endl
+                     << " d/D: Description                                  " << endl
+                     << " c/C: Category                                     " << endl
+                     << " p/P: Publisher                                    " << endl
+                     << " $: Price                                          " << endl
+                     << " #: Publish month and year                         " << endl
+                     << " e/E: Everything                                   " << endl
+                     << " r/R: Reset search                                 " << endl
+                     << "----------------------------------------------------" << endl;
                 getline(cin, input2);
                 cout << endl;
                 auto hashStart2 = chrono::high_resolution_clock::now(); ///start a new timer so time isn't wasted
@@ -153,8 +172,10 @@ int main() {
                     quit = true;
                     break;
                 } else if (input2 == "r" || input2 == "R") {
-                    cout << "Resetting search..." << endl;
-                    cout << endl;
+                    cout << "----------------------------------------------------" << endl
+                         << " Resetting search...                            " << endl
+                         << "----------------------------------------------------" << endl
+                         << endl;
                     break;
                 }else if (input2 == "a" || input2 == "A") {
                     cout << "Author(s): " << hashBook.authors << endl;
@@ -176,14 +197,18 @@ int main() {
                          << "Price: $" << hashBook.priceStarting << endl
                          << "Publish month and year: " << hashBook.publishMonth << " " << hashBook.publishYear << endl;
                 } else {
-                    cout << "That is not a valid command. Please try again." << endl;
+                    cout << "----------------------------------------------------" << endl
+                         << " Invalid command. Please try again.            " << endl
+                         << "----------------------------------------------------" << endl;
                     display = false;
                 }
                 auto hashEnd2 = chrono::high_resolution_clock::now();
                 auto hashTime2 = chrono::duration_cast<chrono::microseconds>(hashEnd2 - hashStart2).count();
                 if (display) {
-                    cout << "Hashmap search time: " << hashTime2 << " microseconds." << endl;
-                    cout << endl;
+                    cout << "----------------------------------------------------" << endl
+                         << " Hashmap search time: " << hashTime2 << " microseconds.   " << endl
+                         << "----------------------------------------------------" << endl
+                         << endl;
                 }
 
                 auto trieStart2 = chrono::high_resolution_clock::now(); ///start new timer for trie
@@ -214,12 +239,18 @@ int main() {
                 auto trieEnd2 = chrono::high_resolution_clock::now();
                 auto trieTime2 = chrono::duration_cast<chrono::microseconds>(trieEnd2 - trieStart2).count();
                 if (display) {
-                    cout << "Trie search time: " << trieTime2 << " microseconds." << endl;
-                    cout << endl;
+                    cout << "----------------------------------------------------" << endl
+                         << " Trie search time: " << trieTime2 << " microseconds.      " << endl
+                         << "----------------------------------------------------" << endl
+                         << endl;
                 }
             }
         }
     }
+    cout << "\n--------------------------------------------------------" << endl;
+    cout << "                Thank you for using BookFinder!         " << endl;
+    cout << "                      Goodbye!                          " << endl;
+    cout << "--------------------------------------------------------\n" << endl;
     file.close();
     return 0;
 }
